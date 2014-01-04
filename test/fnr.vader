@@ -1,0 +1,234 @@
+Execute (Setup):
+  Save g:fnr_flags, mapleader
+
+  " To test with default flags
+  unlet! g:fnr_flags
+  let mapleader = ' '
+
+Given:
+  MIT License
+
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+
+Do (normal - <Leader>S):
+  \<Space>S
+   L\<Enter>
+  \<C-H>\<BS>-L\<Enter>y
+
+Expect:
+  MIT-License
+
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+
+Do (normal - <Leader>S - cword):
+  w\<Space>S
+  \<Enter>
+  \<C-U>LICENSE\<Enter>y
+
+Expect:
+  MIT LICENSE
+
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+
+Do (normal - <Leader>S - insensitive):
+  w\<Space>S
+  \<Enter>
+  \<Tab>i\<Tab>
+  \<C-U>LICENSE\<Enter>yy
+
+Expect:
+  MIT LICENSE
+
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, subLICENSE, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+
+Do (normal - <Leader>S - word-boundary):
+  \<Space>S
+  \<C-U>is\<Enter>
+  \<Tab>w\<Tab>
+  \<C-B>\<C-H>wa\<Enter>ny
+
+Expect:
+  MIT License
+
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software was furnished to do so, subject to
+  the following conditions:
+
+Do (normal - <Leader>S - word-boundary - no confirmation):
+  \<Space>S
+  \<C-U>is\<Enter>
+  \<Tab>wc\<Tab>
+  \<C-B>\<C-H>wa\<Enter>
+
+Expect:
+  MIT License
+
+  Permission was hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software was furnished to do so, subject to
+  the following conditions:
+
+Do (normal - <Leader>s - inner paragraph):
+  2j
+  \<Space>sip
+  \<Tab>i\<Tab>
+  \<C-W>LiCeNsE\<Enter>
+  \<Enter>a
+
+Expect:
+  MIT License
+
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, subLiCeNsE, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+
+Do (blockwise visual - <Leader>s):
+  2j
+  \<C-V>3wG
+  \<Space>s
+  is\<Enter>
+  \<BS>z\<Enter>nyyy
+
+Expect:
+  MIT License
+
+  Permission iz hereby granted, free of charge, to any person obtaining
+  a copy of thiz software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  diztribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+
+Do (visual - <Leader>S - insensitive - 1st occurrence - no confirmation):
+  4jlv3l
+  \<Space>S
+  \<Enter>
+  \<Tab>giccc\<Enter>
+  -\<Enter>
+
+Expect:
+  MIT License
+
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this Soft-ware and associated documentation files (the
+  "Soft-ware"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Soft-ware, and to
+  permit persons to whom the Soft-ware is furnished to do so, subject to
+  the following conditions:
+
+Do (normal - <Leader>sip):
+  w\<Space>sip
+  \<Tab>i\<Tab>
+  \<Enter>
+  \<Left>\<C-H>z\<Enter>y
+
+Expect:
+  MIT Licenze
+
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+
+Do (normal - <Leader>sip - . (repeat.vim integration)):
+  w\<Space>sip
+  \<Tab>i\<Tab>
+  \<Enter>
+  \<Left>\<C-H>z\<Enter>y
+  2j
+  .
+
+Expect:
+  MIT Licenze
+
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, subLicenze, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+
+Do (visual - <Leader>S - CTRL-W / CTRL-K / CTRL-B / CTRL-F / Left / Right):
+  2j
+  v4e
+  \<Space>S
+  \<Enter>
+  \<C-W>\<C-W>
+  \<C-B>\<C-B>\<C-B>\<C-B>
+  \<Left>\<Left>\<Left>
+  \<C-F>\<Right>\<C-K>
+  on isn't granted\<Enter>a
+
+Expect:
+  MIT License
+
+  Permission isn't granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+
+Execute (g:fnr_flags):
+  let g:fnr_flags = 'wi'
+
+Do (normal - <Leader>S (wi)):
+  \<Space>S
+  \<C-U>is\<Enter>
+  n't\<Enter>
+
+Expect:
+  MIT License
+
+  Permission isn't hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software isn't furnished to do so, subject to
+  the following conditions:
+
+Execute (Restore):
+  Restore
