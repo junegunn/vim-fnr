@@ -41,7 +41,7 @@ The command is repeatable with `.` key if you have installed
     - `w` - word-boundary match (`\<STRING\>`)
     - `g` - substitute all occurrences
     - `c` - confirm each substitution
-    - `Tab` of `Enter` to return
+    - `Tab` or `Enter` to return
 - `CTRL-N` or `CTRL-P`
     - Auto-completion
 
