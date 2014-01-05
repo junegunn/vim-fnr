@@ -211,25 +211,6 @@ Expect:
   permit persons to whom the Software is furnished to do so, subject to
   the following conditions:
 
-Execute (g:fnr_flags):
-  let g:fnr_flags = 'wi'
-
-Do (normal - <Leader>S (wi)):
-  \<Space>S
-  \<C-U>is\<Enter>
-  n't\<Enter>
-
-Expect:
-  MIT License
-
-  Permission isn't hereby granted, free of charge, to any person obtaining
-  a copy of this software and associated documentation files (the
-  "Software"), to deal in the Software without restriction, including
-  without limitation the rights to use, copy, modify, merge, publish,
-  distribute, sublicense, and/or sell copies of the Software, and to
-  permit persons to whom the Software isn't furnished to do so, subject to
-  the following conditions:
-
 Do (normal - <Leader>S - CTRL-R-" / CTRL-R-=):
   y2e
   G
@@ -253,6 +234,58 @@ Expect:
   permit persons to whom the Software is furnished to do so, subject to
   the following conditions:
 
+# conditions copies copy
+Do (visual - <Leader>S - CTRL-N / CTRL-P / CTRL-K):
+  v2e
+  \<Space>S\<Enter>
+  \<C-U>
+  co\<C-N> 
+  co\<C-N>\<C-N> 
+  co\<C-N>\<C-N>\<C-N> 
+  co\<C-N>\<C-N>\<C-N>\<C-N> 
+  co\<C-N>\<C-N>\<C-N>\<C-N>\<C-N> 
+  co\<C-P> 
+  co\<C-P>\<C-P> 
+  co\<C-P>\<C-P>\<C-P> 
+  co\<C-P>\<C-P>\<C-P>\<C-P> 
+  co\<C-P>\<C-P>\<C-P>\<C-P>\<C-P> 
+  co\<C-N>\<C-N>\<C-P>\<C-P> 
+  co\<C-N>\<C-N>\<C-P>
+  \<C-B>\<C-B>\<C-B>\<C-B>\<C-B>
+  \<C-K>
+  \<Enter>a
+
+Expect:
+  conditions copies copy co conditions copy copies conditions co copy co condi
+
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+
+Execute (g:fnr_flags):
+  let g:fnr_flags = 'wi'
+
+Do (normal - <Leader>S (wi)):
+  \<Space>S
+  \<C-U>is\<Enter>
+  n't\<Enter>
+
+Expect:
+  MIT License
+
+  Permission isn't hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software isn't furnished to do so, subject to
+  the following conditions:
+
 Execute (Restore):
+  unlet! g:fnr_flags
   Restore
 

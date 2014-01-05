@@ -187,12 +187,10 @@ function! s:getchar(q, mode, phase, from, to)
       let matches = get(s:, 'complete', s:find_candidates(before, s:words))
 
       if !empty(matches)
-        if !first
-          if ch == "\<C-N>"
-            let matches = extend(copy(matches[1:-1]), matches[0:0])
-          else
-            let matches = extend(copy(matches[-1:-1]), matches[0:-2])
-          endif
+        if ch == "\<C-N>"
+          let matches = extend(copy(matches[1:-1]), matches[0:0])
+        else
+          let matches = extend(copy(matches[-1:-1]), matches[0:-2])
         endif
         let item     = matches[0]
         let q        = item . strpart(q, s:cursor)
@@ -274,7 +272,7 @@ endfunction
 
 function! s:find_candidates(prefix, words)
   let started = 0
-  let matches = []
+  let matches = [a:prefix]
   let tokens = matchlist(a:prefix, '^\(.\{-}\)\(\w*\)$')
   let [prefix, suffix] = tokens[1 : 2]
   for word in a:words
