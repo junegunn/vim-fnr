@@ -183,7 +183,6 @@ function! s:getchar(q, mode, phase, from, to)
       let s:cursor = min([len(q), s:cursor + 1])
     elseif ch == "\<C-N>" || ch == "\<C-P>"
       let before  = strpart(q, 0, s:cursor)
-      let first   = !exists('s:complete')
       let matches = get(s:, 'complete', s:find_candidates(before, s:words))
 
       if !empty(matches)

@@ -1,10 +1,7 @@
 vim-fnr
 =======
 
-Find-N-Replace in Vim.
-
-(Yes, I'm aware of `:s[ubstitute]`. I just wanted to save some keystrokes.
-:kissing:)
+Find-N-Replace in Vim with live preview
 
 Installation
 ------------
