@@ -16,8 +16,8 @@ Given:
   permit persons to whom the Software is furnished to do so, subject to
   the following conditions:
 
-Do (normal - <Leader>S):
-  \<Space>S
+Do (normal - <Leader>R):
+  \<Space>R
    L\<Enter>
   \<C-H>\<BS>-L\<Enter>y
 
@@ -32,8 +32,8 @@ Expect:
   permit persons to whom the Software is furnished to do so, subject to
   the following conditions:
 
-Do (normal - <Leader>S - cword):
-  w\<Space>S
+Do (normal - <Leader>R - cword):
+  w\<Space>R
   \<Enter>
   \<C-U>LICENSE\<Enter>y
 
@@ -48,8 +48,8 @@ Expect:
   permit persons to whom the Software is furnished to do so, subject to
   the following conditions:
 
-Do (normal - <Leader>S - insensitive):
-  w\<Space>S
+Do (normal - <Leader>R - insensitive):
+  w\<Space>R
   \<Enter>
   \<Tab>i\<Tab>
   \<C-U>LICENSE\<Enter>yy
@@ -65,8 +65,8 @@ Expect:
   permit persons to whom the Software is furnished to do so, subject to
   the following conditions:
 
-Do (normal - <Leader>S - word-boundary):
-  \<Space>S
+Do (normal - <Leader>R - word-boundary):
+  \<Space>R
   \<C-U>is\<Enter>
   \<Tab>w\<Tab>
   \<C-B>\<C-H>wa\<Enter>ny
@@ -82,8 +82,8 @@ Expect:
   permit persons to whom the Software was furnished to do so, subject to
   the following conditions:
 
-Do (normal - <Leader>S - word-boundary - no confirmation):
-  \<Space>S
+Do (normal - <Leader>R - word-boundary - no confirmation):
+  \<Space>R
   \<C-U>is\<Enter>
   \<Tab>wc\<Tab>
   \<C-B>\<C-H>wa\<Enter>
@@ -101,7 +101,7 @@ Expect:
 
 Do (normal - <Leader>s - inner paragraph):
   2j
-  \<Space>sip
+  \<Space>rip
   \<Tab>i\<Tab>
   \<C-W>LiCeNsE\<Enter>
   \<Enter>a
@@ -120,7 +120,7 @@ Expect:
 Do (blockwise visual - <Leader>s):
   2j
   \<C-V>3wG
-  \<Space>s
+  \<Space>r
   is\<Enter>
   \<BS>z\<Enter>nyyy
 
@@ -135,9 +135,9 @@ Expect:
   permit persons to whom the Software is furnished to do so, subject to
   the following conditions:
 
-Do (visual - <Leader>S - insensitive - 1st occurrence - no confirmation):
+Do (visual - <Leader>R - insensitive - 1st occurrence - no confirmation):
   4jlv3l
-  \<Space>S
+  \<Space>R
   \<Enter>
   \<Tab>giccc\<Enter>
   -\<Enter>
@@ -154,7 +154,7 @@ Expect:
   the following conditions:
 
 Do (normal - <Leader>sip):
-  w\<Space>sip
+  w\<Space>rip
   \<Tab>i\<Tab>
   \<Enter>
   \<Left>\<C-H>z\<Enter>y
@@ -171,7 +171,7 @@ Expect:
   the following conditions:
 
 Do (normal - <Leader>sip - . (repeat.vim integration)):
-  w\<Space>sip
+  w\<Space>rip
   \<Tab>i\<Tab>
   \<Enter>
   \<Left>\<C-H>z\<Enter>y
@@ -189,10 +189,10 @@ Expect:
   permit persons to whom the Software is furnished to do so, subject to
   the following conditions:
 
-Do (visual - <Leader>S - CTRL-W / CTRL-K / CTRL-B / CTRL-F / Left / Right):
+Do (visual - <Leader>R - CTRL-W / CTRL-K / CTRL-B / CTRL-F / Left / Right):
   2j
   v4e
-  \<Space>S
+  \<Space>R
   \<Enter>
   \<C-W>\<C-W>
   \<C-B>\<C-B>\<C-B>\<C-B>
@@ -211,10 +211,10 @@ Expect:
   permit persons to whom the Software is furnished to do so, subject to
   the following conditions:
 
-Do (normal - <Leader>S - CTRL-R-" / CTRL-R-=):
+Do (normal - <Leader>R - CTRL-R-" / CTRL-R-=):
   y2e
   G
-  \<Space>S
+  \<Space>R
   \<C-U>
   \<C-R>"
   \<Enter>
@@ -235,9 +235,9 @@ Expect:
   the following conditions:
 
 # conditions copies copy
-Do (visual - <Leader>S - CTRL-N / CTRL-P / CTRL-K):
+Do (visual - <Leader>R - CTRL-N / CTRL-P / CTRL-K):
   v2e
-  \<Space>S\<Enter>
+  \<Space>R\<Enter>
   \<C-U>
   co\<C-N> 
   co\<C-N>\<C-N> 
@@ -269,8 +269,8 @@ Expect:
 Execute (g:fnr_flags):
   let g:fnr_flags = 'wi'
 
-Do (normal - <Leader>S (wi)):
-  \<Space>S
+Do (normal - <Leader>R (wi)):
+  \<Space>R
   \<C-U>is\<Enter>
   n't\<Enter>
 

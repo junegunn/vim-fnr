@@ -16,14 +16,14 @@ Usage
 -----
 
 - Normal mode
-    - `<Leader>s<Movement>`
+    - `<Leader>r<Movement>`
           - Substitution in the range
-    - `<Leader>S`
+    - `<Leader>R`
           - Substitution in the entire document
 - Visual mode
-    - `<Leader>s`
+    - `<Leader>r`
           - Substitution in the selected range
-    - `<Leader>S`
+    - `<Leader>R`
           - Substitution of the selected string in the entire document
 - Command line
     - `:<Range>FNR`
@@ -56,10 +56,10 @@ Custom mappings
 ---------------
 
 ```vim
-nmap <Leader>s <Plug>(FNR)
-vmap <Leader>s <Plug>(FNR)
-nmap <Leader>S <Plug>(FNR%)
-vmap <Leader>S <Plug>(FNR%)
+nmap <Leader>r <Plug>(FNR)
+vmap <Leader>r <Plug>(FNR)
+nmap <Leader>R <Plug>(FNR%)
+vmap <Leader>R <Plug>(FNR%)
 ```
 
 License

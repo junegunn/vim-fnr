@@ -30,7 +30,7 @@ nnoremap <silent> <Plug>(FNRRepeat) :call fnr#fnr_repeat()<CR>
 command! -range FNR call fnr#fnr('line', <line1>, <line2>)
 
 for m in ['n', 'v']
-  for [k, p] in items({'s': '<Plug>(FNR)', 'S': '<Plug>(FNR%)'})
+  for [k, p] in items({'r': '<Plug>(FNR)', 'R': '<Plug>(FNR%)'})
     if !hasmapto(p, m) && empty(mapcheck(mapleader.k, m))
       execute m.printf('map <Leader>%s %s', k, p)
     endif
