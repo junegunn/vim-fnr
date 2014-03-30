@@ -29,11 +29,14 @@ nnoremap <silent> <Plug>(FNRRepeat) :call fnr#fnr_repeat()<CR>
 
 command! -range FNR call fnr#fnr('line', <line1>, <line2>)
 
-for m in ['n', 'v']
-  for [k, p] in items({'r': '<Plug>(FNR)', 'R': '<Plug>(FNR%)'})
-    if !hasmapto(p, m) && empty(mapcheck(mapleader.k, m))
-      execute m.printf('map <Leader>%s %s', k, p)
-    endif
+function! s:define_maps(leader)
+  for m in ['n', 'v']
+    for [k, p] in items({'r': '<Plug>(FNR)', 'R': '<Plug>(FNR%)'})
+      if !hasmapto(p, m) && empty(mapcheck(a:leader.k, m))
+        execute m.printf('map <Leader>%s %s', k, p)
+      endif
+    endfor
   endfor
-endfor
+endfunction
 
+call s:define_maps(exists('mapleader') ? mapleader : '\')
