@@ -308,10 +308,14 @@ endfunction
 function! s:find_matches(pattern)
   let found = []
   let matches = []
+  let first_occurence = {}
   while 1
-    let [l, c] = searchpos(a:pattern, 'w')
+    normal! 0
+    let [l, c] = searchpos(a:pattern, 'wc')
     if l == 0 && c == 0 || index(found, [l, c]) >= 0
       break
+    elseif empty(first_occurence)
+      let first_occurence = winsaveview()
     endif
     call add(found, [l, c])
     if l <= line('w$') && l >= line('w0')
@@ -319,6 +323,10 @@ function! s:find_matches(pattern)
     endif
   endwhile
   call sort(matches, 's:sort')
+
+  if !empty(first_occurence)
+    call winrestview(first_occurence)
+  endif
   return [found, matches]
 endfunction
 
@@ -329,7 +337,7 @@ function! fnr#fnr(type, ...) range
   let s:hl2       = get(g:, 'fnr_hl_to', 'IncSearch')
   let from        = get(g:, '_fnr_cword', '')
   let save_yank   = @"
-  let save_cursor = getpos(".")
+  let view        = winsaveview()
 
   if a:0 > 0
     if a:0 == 1
@@ -352,7 +360,7 @@ function! fnr#fnr(type, ...) range
   endif
   let content = @"
   let @" = save_yank
-  call setpos('.', save_cursor)
+  call winrestview(view)
 
   if s:need_repeat
     silent! execute "'<,'>". s:previous
@@ -364,8 +372,7 @@ function! fnr#fnr(type, ...) range
   let mode = get(g:, 'fnr_flags', 'gc')
   let [ic, wb, we] = s:parse_mode(mode)
 
-  let so_save = &scrolloff
-  set scrolloff=0
+  let cl_save = &cursorline
   call s:hide_cursor()
   try
     " Find
@@ -402,7 +409,9 @@ function! fnr#fnr(type, ...) range
     " Replace
     let to = from
     let s:cursor = len(to)
+    set cursorline
     redraw
+    let view = winsaveview()
     while 1
       call s:echon(from, to, mode, 1) " Should not redraw yet
 
@@ -435,6 +444,7 @@ function! fnr#fnr(type, ...) range
           call add(mids, matchadd(s:hl2, '\%'.l.'l\%'.col.'c\V'.ic.wb.escape(to, '\').we))
         endfor
       endif
+      call winrestview(view)
       redraw
 
       let pmode         = mode
@@ -462,7 +472,7 @@ function! fnr#fnr(type, ...) range
     call s:matchdelete(mids)
     call s:display_cursor()
     unlet! g:_fnr_cword g:_fnr_entire s:in_getmode
-    let &scrolloff = so_save
+    let &cursorline = cl_save
   endtry
 endfunction
 
