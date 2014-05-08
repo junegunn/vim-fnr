@@ -6,7 +6,7 @@ Find-N-Replace in Vim with live preview (experimental)
 Installation
 ------------
 
-Use your favorite plugin manager.
+Requires [vim-pseudocl](https://github.com/junegunn/vim-pseudocl).
 
 - [vim-plug](https://github.com/junegunn/vim-plug)
   1. Add `Plug 'junegunn/vim-fnr'` to .vimrc
