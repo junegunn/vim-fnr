@@ -78,33 +78,35 @@ function! s:mode_string(mode)
 endfunction
 
 function! s:echon(from, to, mode, phase)
+  let from = substitute(a:from, "\n", ' ', 'g') " FIXME
+  let to   = substitute(a:to,   "\n", ' ', 'g') " FIXME
   if get(s:, 'in_getmode', 0)
     echon "\r:FNR "
     echohl Label
     echon s:mode_string(a:mode)
     echohl None
-    echon printf(" { find: %s , replace: %s }", a:from, a:to)
+    echon printf(" { find: %s , replace: %s }", from, to)
   elseif a:phase == 0
     echon printf("\r:FNR %s { ", s:mode_string(a:mode))
     echohl Label
     echon 'find'
     echohl None
     echon ': '
-    let pad = s:echo_cursor(s:hl1, a:from)
+    let pad = s:echo_cursor(s:hl1, from)
     if !pad | echon ' ' | endif
     echon ', replace: ? }'
   elseif a:phase == 1
     echon printf("\r:FNR %s { ", s:mode_string(a:mode))
     echon 'find: '
     execute 'echohl ' . s:hl1
-    echon a:from
+    echon from
     echohl None
     echon ' , '
     echohl Label
     echon 'replace'
     echohl None
     echon ': '
-    let pad = s:echo_cursor(s:hl2, a:to)
+    let pad = s:echo_cursor(s:hl2, to)
     if !pad | echon ' ' | endif
     echon '}'
   endif
@@ -291,6 +293,18 @@ function! s:parse_mode(mode)
   return [ic, wb, we]
 endfunction
 
+function! s:escape(pattern)
+  return s:escape_nl(escape(a:pattern, '\'))
+endfunction
+
+function! s:escape_nl(pattern)
+  return substitute(a:pattern, "\n", '\\n', 'g')
+endfunction
+
+function! s:escape_nl_cr(pattern)
+  return substitute(a:pattern, "\n", '\\r', 'g')
+endfunction
+
 function! s:find_matches(pattern)
   let found = []
   let matches = []
@@ -359,7 +373,7 @@ function! fnr#fnr(type, ...) range
     while 1
       call s:matchdelete(mids)
       if !empty(from)
-        call add(mids, matchadd(s:hl1, prefix.ic.wb.from.we))
+        call add(mids, matchadd(s:hl1, prefix.ic.wb.s:escape(from).we))
       endif
       call s:echon(from, '?', mode, 0)
       redraw
@@ -379,7 +393,7 @@ function! fnr#fnr(type, ...) range
     endwhile
 
     " Found
-    let [found, matches] = s:find_matches(prefix.ic.wb.from.we)
+    let [found, matches] = s:find_matches(prefix.ic.wb.s:escape(from).we)
     if empty(found)
       call s:message("No matches")
       return
@@ -399,7 +413,7 @@ function! fnr#fnr(type, ...) range
         \ : (line('w0') > line("'<") ? line('w0') : "'<")
         \ . ','
         \ . (line('w$') < line("'>") ? line('w$') : "'>")
-      let command = "s#".prefix.ic.wb.escape(from, '#\').we.'#'.escape(to, '#&~\').'#'
+      let command = "s#".prefix.ic.wb.s:escape(escape(from, '#')).we.'#'.s:escape_nl_cr(escape(to, '#&~\')).'#'
       silent execute range.command.substitute(mode, '[^g]', '', 'g')
 
       " Update highlights

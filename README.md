@@ -1,7 +1,7 @@
 vim-fnr
 =======
 
-Find-N-Replace in Vim with live preview
+Find-N-Replace in Vim with live preview (experimental)
 
 Installation
 ------------

@@ -285,7 +285,37 @@ Expect:
   permit persons to whom the Software isn't furnished to do so, subject to
   the following conditions:
 
-Execute (Restore):
+Execute:
   unlet! g:fnr_flags
+
+Do (visual - <Leader>R - newline):
+  V\<Space>R
+  \<Enter>
+  \<C-U>Hello world
+  \<Enter>y
+
+Expect:
+  Hello world
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+
+Given (backslash, trailing slash):
+  \^_^/
+
+Do (visual - <Leader>R - backslash):
+  viW\<Space>R
+  \<Enter>
+  \<C-U>\(-_-)~
+  \<Enter>y
+
+Expect:
+  \(-_-)~
+
+Execute (Restore):
   Restore
 
