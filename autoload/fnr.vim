@@ -92,12 +92,12 @@ function! s:input(prompt, default)
   endtry
 endfunction
 
-function! s:on_unknown_key(key, str, cursor)
+function! g:_fnr_on_unknown_key(key, str, cursor)
   if a:key == "\<tab>"
     let ophase = s:phase
     let s:phase = s:phase.'m'
     while 1
-      call s:render('', '', '')
+      call g:_fnr_render('', '', '')
       let ch = nr2char(getchar())
       if ch == 'g'          | call s:toggle_mode('g')
       elseif ch == 'c'      | call s:toggle_mode('c')
@@ -108,13 +108,13 @@ function! s:on_unknown_key(key, str, cursor)
         let s:phase = ophase
         break
       endif
-      call s:on_change(a:str, '', '')
+      call g:_fnr_on_change(a:str, '', '')
     endwhile
   endif
   return [g:pseudocl#CONTINUE, a:str, a:cursor]
 endfunction
 
-function! s:on_change(new, old, _cursor)
+function! g:_fnr_on_change(new, old, _cursor)
   if a:new != a:old
     let [ic, wb, we] = s:parse_mode(s:mode)
     if s:phase =~ 'f'
@@ -164,7 +164,7 @@ function! s:on_change(new, old, _cursor)
   endif
 endfunction
 
-function! s:render(_prompt, line, cursor)
+function! g:_fnr_render(_prompt, line, cursor)
   call pseudocl#render#clear()
   echohl None
   echon ':FNR '
@@ -341,16 +341,16 @@ function! fnr#fnr(type, ...) range
   call s:hide_cursor()
 
   let opts = {
-  \ 'renderer':       function('s:render'),
+  \ 'renderer':       function('g:_fnr_render'),
   \ 'words':          s:words,
   \ 'map':            0,
   \ 'remap':          { "\<Tab>": "\<C-N>", "\<S-Tab>": "\<C-P>" },
-  \ 'on_change':      function('s:on_change'),
-  \ 'on_unknown_key': function('s:on_unknown_key') }
+  \ 'on_change':      function('g:_fnr_on_change'),
+  \ 'on_unknown_key': function('g:_fnr_on_unknown_key') }
 
   try
     " Find
-    call s:on_change(s:from, '', '')
+    call g:_fnr_on_change(s:from, '', '')
     let s:from = pseudocl#start(extend(opts, { 'input': s:from, 'highlight': s:hl1 }))
     if empty(s:from)
       return s:message("Empty query")
@@ -370,7 +370,7 @@ function! fnr#fnr(type, ...) range
     let s:view = winsaveview()
     set cursorline
     call s:save_undo()
-    call s:on_change(s:to, '', '')
+    call g:_fnr_on_change(s:to, '', '')
     let s:to = pseudocl#start(extend(opts, { 'input': s:to, 'highlight': s:hl2 }))
 
     silent! undo
