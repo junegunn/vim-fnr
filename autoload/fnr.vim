@@ -256,8 +256,14 @@ function! s:find_matches(pattern)
   let matches = []
   let first_occurence = {}
   while 1
-    normal! 0
-    let [l, c] = searchpos(a:pattern, 'wc')
+    if empty(first_occurence)
+      normal! 0
+      let flag = 'wc'
+    else
+      let flag = 'w'
+    endif
+
+    let [l, c] = searchpos(a:pattern, flag)
     if l == 0 && c == 0 || index(found, [l, c]) >= 0
       break
     elseif empty(first_occurence)
