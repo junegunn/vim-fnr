@@ -136,7 +136,7 @@ function! g:_fnr_on_change(new, old, _cursor)
         \ . ','
         \ . (line('w$') < line("'>") ? line('w$') : "'>")
       let s:command = "s#".s:prefix.ic.wb.s:escape(escape(s:from, '#')).we.'#'.s:escape_nl_cr(escape(s:to, '#&~\')).'#'
-      silent execute range.s:command.substitute(s:mode, '[^g]', '', 'g')
+      silent! execute range.s:command.substitute(s:mode, '[^g]', '', 'g')
       let s:taint = 1
 
       " Update highlights
@@ -366,8 +366,7 @@ function! fnr#fnr(type, ...) range
     let [ic, wb, we]     = s:parse_mode(s:mode)
     let [found, s:matches] = s:find_matches(s:prefix.ic.wb.s:escape(s:from).we)
     if empty(found)
-      call s:message("No matches")
-      return
+      return s:message("No matches")
     endif
 
     " Replace
@@ -386,6 +385,8 @@ function! fnr#fnr(type, ...) range
     let s:previous = s:command.substitute(s:mode, '[^g]', '', 'g')
     let s:repeat_entire = get(g:, '_fnr_entire', 0)
     silent! call repeat#set("\<Plug>(FNRRepeat)")
+  catch /Pattern not found/
+    return s:message("No matches")
   catch 'exit'
     if s:taint
       silent! undo
