@@ -297,6 +297,29 @@ function! s:restore_undo()
   endif
 endfunction
 
+function! s:save_visual()
+  let s:visual = [visualmode(), getpos("'<")[1:-1], getpos("'>")[1:-1]]
+endfunction
+
+function! s:restore_visual()
+  let [mode, p1, p2] = s:visual
+  let [l0, c0]       = [line('.'), col('.')]
+  let [l1, c1, o1]   = p1
+  let [l2, c2, o2]   = p2
+  if l1 == 0 || l2 == 0
+    return
+  endif
+  let ve_save = &virtualedit
+  try
+    if mode == "\<C-V>"
+      set virtualedit=all
+    endif
+    execute printf("normal! %dG%d|%s%dG%d|\<C-C>%dG%d|", l1, c1 + o1, mode, l2, c2 + o2, l0, c0)
+  finally
+    let &virtualedit = ve_save
+  endtry
+endfunction
+
 function! fnr#fnr(type, ...) range
   let s:type    = a:type
   let s:mids    = []
@@ -310,6 +333,7 @@ function! fnr#fnr(type, ...) range
   let s:matches = []
   let s:taint   = 0
 
+  call s:save_visual()
   let save_yank = @"
   let view      = winsaveview()
   if a:0 > 0
@@ -396,6 +420,7 @@ function! fnr#fnr(type, ...) range
   finally
     call s:matchdelete()
     call s:display_cursor()
+    call s:restore_visual()
     unlet! g:_fnr_cword g:_fnr_entire s:in_getmode
     let &cursorline = cl_save
   endtry
