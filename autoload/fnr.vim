@@ -135,7 +135,7 @@ function! g:_fnr_on_change(new, old, _cursor)
         \ : (line('w0') > line("'<") ? line('w0') : "'<")
         \ . ','
         \ . (line('w$') < line("'>") ? line('w$') : "'>")
-      let s:command = "s#".s:prefix.ic.wb.s:escape(escape(s:from, '#')).we.'#'.s:escape_nl_cr(escape(s:to, '#&~\')).'#'
+      let s:command = "s#".s:prefix.ic.wb.escape(s:escape(s:from), '#').we.'#'.s:escape_nl_cr(escape(s:to, '#&~\')).'#'
       silent! execute range.s:command.substitute(s:mode, '[^g]', '', 'g')
       let s:taint = 1
 

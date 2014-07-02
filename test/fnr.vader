@@ -353,6 +353,18 @@ Do (visual - <Leader>R - backslash):
 Expect:
   \(-_-)~
 
+Given (Sharp, ouch!):
+  Hello#World
+
+Do (visual - <Leader>R - sharp):
+  viW\<Space>R
+  \<Enter>
+  \<C-U>Goodbye#World
+  \<Enter>y
+
+Expect:
+  Goodbye#World
+
 Execute (Restore):
   Restore
 
