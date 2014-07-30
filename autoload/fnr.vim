@@ -321,6 +321,11 @@ function! s:restore_visual()
 endfunction
 
 function! fnr#fnr(type, ...) range
+  silent! call pseudocl#nop()
+  if !exists('*pseudocl#start')
+    echoerr 'junegunn/vim-pseudocl not found'
+    return
+  endif
   let s:type    = a:type
   let s:mids    = []
   let s:prefix  = '\%V\V'
