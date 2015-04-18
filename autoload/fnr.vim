@@ -114,6 +114,15 @@ function! g:_fnr_on_unknown_key(key, str, cursor)
   return [g:pseudocl#CONTINUE, a:str, a:cursor]
 endfunction
 
+function! s:char(from, to)
+  for c in ['/', ',', ':', '@']
+    if stridx(a:from.a:to, c) < 0
+      return c
+    endif
+  endfor
+  return '#'
+endfunction
+
 function! g:_fnr_on_change(new, old, _cursor)
   if a:new != a:old
     let [ic, wb, we] = s:parse_mode(s:mode)
@@ -135,7 +144,8 @@ function! g:_fnr_on_change(new, old, _cursor)
         \ : (line('w0') > line("'<") ? line('w0') : "'<")
         \ . ','
         \ . (line('w$') < line("'>") ? line('w$') : "'>")
-      let s:command = "s#".s:prefix.ic.wb.escape(s:escape(s:from), '#').we.'#'.s:escape_nl_cr(escape(s:to, '#&~\')).'#'
+      let c = s:char(s:from, s:to)
+      let s:command = 's'.c.s:prefix.ic.wb.escape(s:escape(s:from), c).we.c.s:escape_nl_cr(escape(s:to, c.'&~\')).c
       silent! execute range.s:command.substitute(s:mode, '[^g]', '', 'g')
       let s:taint = 1
 
@@ -340,31 +350,31 @@ function! fnr#fnr(type, ...) range
   let entire    = get(g:, '_fnr_entire', 0)
 
   call s:save_visual()
-  let save_yank = @"
+  let save_yank = [@", @f]
   let view      = winsaveview()
   if a:0 > 0
     if a:0 == 1
-      normal! gvy
+      normal! gv"fy
       if a:1 == 2
-        let s:from = @"
+        let s:from = @f
         let entire = 1
-        normal! ggVGy
+        normal! ggVG"fy
       endif
     else
-      silent execute printf("normal! %dGV%dGy", a:1, a:2)
+      silent execute printf("normal! %dGV%dG\"fy", a:1, a:2)
     endif
   else
     if s:type == 'line'
-      silent execute "normal! '[V']y"
+      silent execute "normal! '[V']\"fy"
     elseif s:type == 'block'
-      silent execute "normal! `[\<C-V>`]y"
+      silent execute "normal! `[\<C-V>`]\"fy"
     else
-      silent execute "normal! `[v`]y"
+      silent execute "normal! `[v`]\"fy"
     endif
   endif
-  let content = @"
+  let content = @f
   let s:words = pseudocl#complete#extract_words(content)
-  let @" = save_yank
+  let [@", @f] = save_yank
   call winrestview(view)
 
   if s:need_repeat
