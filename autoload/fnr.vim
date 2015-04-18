@@ -336,6 +336,7 @@ function! fnr#fnr(type, ...) range
     echoerr 'junegunn/vim-pseudocl not found'
     return
   endif
+  let view      = winsaveview()
   let s:type    = a:type
   let s:mids    = []
   let s:prefix  = '\%V\V'
@@ -351,7 +352,6 @@ function! fnr#fnr(type, ...) range
 
   call s:save_visual()
   let save_yank = [@", @f]
-  let view      = winsaveview()
   if a:0 > 0
     if a:0 == 1
       normal! gv"fy
@@ -443,6 +443,7 @@ function! fnr#fnr(type, ...) range
     call s:restore_visual()
     unlet! g:_fnr_cword g:_fnr_entire s:in_getmode
     let &cursorline = cl_save
+    call winrestview(view)
   endtry
 endfunction
 
