@@ -337,6 +337,7 @@ function! fnr#fnr(type, ...) range
   let s:phase   = 'f'
   let s:matches = []
   let s:taint   = 0
+  let entire    = get(g:, '_fnr_entire', 0)
 
   call s:save_visual()
   let save_yank = @"
@@ -346,6 +347,7 @@ function! fnr#fnr(type, ...) range
       normal! gvy
       if a:1 == 2
         let s:from = @"
+        let entire = 1
         normal! ggVGy
       endif
     else
@@ -409,10 +411,13 @@ function! fnr#fnr(type, ...) range
 
     silent! undo
     call s:restore_undo()
-    execute "'<,'>".s:command.substitute(s:mode, '[^gc]', '', 'g')
+    let cmd    = s:command.substitute(s:mode, '[^gc]', '', 'g')
+    let range  = "'<,'>"
+    call histadd(':', entire ? '%'.substitute(cmd, '\\%V', '', '') : range.cmd)
+    execute range.cmd
     " vim-repeat does not seem to support substitution confirmation
     let s:previous = s:command.substitute(s:mode, '[^g]', '', 'g')
-    let s:repeat_entire = get(g:, '_fnr_entire', 0)
+    let s:repeat_entire = entire
     silent! call repeat#set("\<Plug>(FNRRepeat)")
   catch /Pattern not found/
     return s:message("No matches")

@@ -61,9 +61,9 @@ Custom mappings
 
 ```vim
 nmap <Leader>r <Plug>(FNR)
-vmap <Leader>r <Plug>(FNR)
+xmap <Leader>r <Plug>(FNR)
 nmap <Leader>R <Plug>(FNR%)
-vmap <Leader>R <Plug>(FNR%)
+xmap <Leader>R <Plug>(FNR%)
 ```
 
 License

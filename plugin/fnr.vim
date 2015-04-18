@@ -22,9 +22,9 @@
 " WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 nnoremap <silent> <Plug>(FNR)       :let [g:_fnr_cword, g:_fnr_entire] = [expand('<cword>'), 0]<CR>:set opfunc=fnr#fnr<CR>g@
-vnoremap <silent> <Plug>(FNR)       :call fnr#fnr(visualmode(), 1)<CR>
+xnoremap <silent> <Plug>(FNR)       :call fnr#fnr(visualmode(), 1)<CR>
 nnoremap <silent> <Plug>(FNR%)      :let [g:_fnr_cword, g:_fnr_entire] = [expand('<cword>'), 1]<CR>:%FNR<CR>
-vnoremap <silent> <Plug>(FNR%)      :call fnr#fnr(visualmode(), 2)<CR>
+xnoremap <silent> <Plug>(FNR%)      :call fnr#fnr(visualmode(), 2)<CR>
 nnoremap <silent> <Plug>(FNRRepeat) :call fnr#fnr_repeat()<CR>
 
 command! -range FNR call fnr#fnr('line', <line1>, <line2>)
