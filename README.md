@@ -23,7 +23,7 @@ Usage
     - `<Leader>r<Movement>`
           - Substitution in the range
     - `<Leader>R`
-          - Substitution in the entire document
+          - Substitution of the word under the cursor in the entire document
 - Visual mode
     - `<Leader>r`
           - Substitution in the selected range
