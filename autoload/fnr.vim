@@ -92,6 +92,10 @@ function! s:input(prompt, default)
   endtry
 endfunction
 
+function! s:contains(list, val)
+  return index(a:list, a:val) >= 0
+endfunction
+
 function! g:_fnr_on_unknown_key(key, str, cursor)
   if a:key == "\<tab>"
     let ophase = s:phase
@@ -99,14 +103,13 @@ function! g:_fnr_on_unknown_key(key, str, cursor)
     while 1
       call g:_fnr_render('', '', '')
       let ch = nr2char(getchar())
-      if ch == 'g'          | call s:toggle_mode('g')
-      elseif ch == 'c'      | call s:toggle_mode('c')
-      elseif ch == 'i'      | call s:toggle_mode('i')
-      elseif ch == 'w'      | call s:toggle_mode('w')
-      elseif ch == "\<C-C>" | throw 'exit'
-      elseif ch == "\<Tab>" || ch == "\<Enter>"
+      if s:contains(['g', 'c', 'i', 'w'], ch)
+        call s:toggle_mode(ch)
+      elseif s:contains(["\<Tab>", "\<Enter>"], ch)
         let s:phase = ophase
         break
+      elseif s:contains(["\<C-C>", "\<Esc>"], ch)
+        throw 'exit'
       endif
       call g:_fnr_on_change(a:str, '', '')
     endwhile
