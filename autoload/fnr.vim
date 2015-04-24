@@ -72,7 +72,7 @@ endfunction
 function! s:mode_string()
   let str = ''
   for m in ['i', 'w', 'g', 'c']
-    let str .= s:mode =~ m ? m : '_'
+    let str .= s:mode =~ m ? toupper(m) : m
   endfor
   return '('.str.')'
 endfunction
